@@ -4,7 +4,12 @@ import csv
 import pandas as pd
 from selenium import webdriver
 import time
-import random 
+import random
+import sys
+
+
+
+
 
 # url = 'https://theaudl.com/stats/player-stats'
 
@@ -117,7 +122,7 @@ for i in range(50):  # loop over the number of pages
 # save the DataFrame to a csv file
 all_data.to_csv('player_stats.csv', index=False)
 
-'''
+
 
 # Initialize the driver
 driver = webdriver.Chrome()  # You can also use Chrome or other browsers
@@ -151,3 +156,11 @@ driver.quit()
 data = pd.read_csv('player_stats.csv')
 
 print(data.head())
+'''
+
+fdlsakfjasdkjfsjd 
+testing repo testing 
+adfhadsaf
+
+why are these chnages not being reflected, helo?
+#testing
