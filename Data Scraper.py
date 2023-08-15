@@ -169,7 +169,7 @@ class PlayerStats():
         self.team = team
 
     def get_url(self, page: int) -> str:
-        if self.year == 'career' and self.team = 'all':
+        if self.year == 'career' and self.team == 'all':
             return f"{self.base_url}&page={page}&per={self.per}"
         elif self.year == 'career':
             return f"{self.base_url}&page={page}&per={self.per}&team={self.team}"
