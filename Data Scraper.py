@@ -11,6 +11,7 @@ import sys
 
 
 
+
 # url = 'https://theaudl.com/stats/player-stats'
 
 # html = requests.get(url)
@@ -158,9 +159,60 @@ data = pd.read_csv('player_stats.csv')
 print(data.head())
 '''
 
-fdlsakfjasdkjfsjd 
-testing repo testing 
-adfhadsaf
+class PlayerStats():
 
-why are these chnages not being reflected, helo?
-#testing
+
+    def __init__(self, year, per, team):
+        self.base_url = 'https://www.backend.audlstats.com/web-api/player-stats?limit=20'
+        self.year = year
+        self.per = per
+        self.team = team
+
+    def get_url(self, page: int) -> str:
+        if self.year == 'career' and self.team = 'all':
+            return f"{self.base_url}&page={page}&per={self.per}"
+        elif self.year == 'career':
+            return f"{self.base_url}&page={page}&per={self.per}&team={self.team}"
+        elif self.team == 'all':
+            return f"{self.base_url}&page={page}&year={self.year}&per={self.per}"
+        
+        return f"{self.base_url}&page={page}&year={self.year}&per={self.per}&team={self.team}"
+    
+    def get_table(self):
+        hasPlayerLeft = True
+        playerStats = []
+        page = 1
+        while(hasPlayerLeft):
+            try:
+                url = self.get_url(page)
+                data = requests.get(url)
+                usable_data = data.json()
+                players = usable_data['stats']
+            except:
+                print(f'An error occurred when attempting to scrape data from {url}')
+                sys.exit(1)
+            if not players:
+                hasPlayerLeft = False
+            else:
+                playerStats = playerStats + players
+                page = page + 1
+        dataFrame = pd.DataFrame(playerStats)
+        
+        return dataFrame.drop_duplicates()
+
+
+    def stats_to_csv(self, file_path):
+        try:
+            df = self.get_table()
+            df.to_csv(file_path, sep=',', index=False)
+            print(f'Succesfully saved data as a csv file at {file_path}')
+        except:
+            print("An error occurred when trying to save data as a csv file")
+
+def main():
+    stats = PlayerStats(2022, 'game', 'spiders')
+    print(stats.get_table())
+
+if __name__ == '__main__':
+    main()
+
