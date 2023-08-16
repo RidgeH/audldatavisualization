@@ -198,7 +198,7 @@ class PlayerStats():
                 page = page + 1
         dataFrame = pd.DataFrame(playerStats)
         
-        return dataFrame.drop_duplicates()
+        return dataFrame
 
 
     def stats_to_csv(self, file_path):
@@ -206,12 +206,15 @@ class PlayerStats():
             df = self.get_table()
             df.to_csv(file_path, sep=',', index=False)
             print(f'Succesfully saved data as a csv file at {file_path}')
-        except:
-            print("An error occurred when trying to save data as a csv file")
+        except Exception as e:
+            print(f'An error occurred when trying to save data as a csv file: {e}')
 
 def main():
-    stats = PlayerStats(2022, 'game', 'spiders')
-    print(stats.get_table())
+    stats = PlayerStats(2023, 'game', 'spiders')
+    # print(stats.get_table())
+    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/player_stats.csv'
+
+    stats.stats_to_csv(path)
 
 if __name__ == '__main__':
     main()
