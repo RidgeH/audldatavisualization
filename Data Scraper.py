@@ -210,9 +210,9 @@ class PlayerStats():
             print(f'An error occurred when trying to save data as a csv file: {e}')
 
 def main():
-    stats = PlayerStats(2023, 'total', 'spiders')
+    stats = PlayerStats('career', 'total', 'spiders')
     # print(stats.get_table())
-    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/spiders_stats.csv'
+    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/spiders_lifetime_stats.csv'
 
     stats.stats_to_csv(path)
 
