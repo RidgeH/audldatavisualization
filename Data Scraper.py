@@ -4,12 +4,11 @@ import pandas as pd
 import sys
 
 
-
 class PlayerStats():
 
 
     def __init__(self, year, per, team):
-        self.base_url = 'https://www.backend.audlstats.com/web-api/player-stats?limit=20'
+        self.base_url = 'https://www.backend.ufastats.com/web-api/player-stats?limit=20'
         self.year = year
         self.per = per
         self.team = team
@@ -55,13 +54,49 @@ class PlayerStats():
         except Exception as e:
             print(f'An error occurred when trying to save data as a csv file: {e}')
 
-def main():
-    stats = PlayerStats('2024', 'total', 'spiders')
-    # print(stats.get_table())
-    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/spiders_stats_2024.csv'
+class TeamStats():
 
-    stats.stats_to_csv(path)
+    # &opponent and &perGame
+    
+    def __init__(self, year, per, team):
+        self.base_url = 'https://www.backend.ufastats.com/web-api/team-stats?limit=50'
+        self.year = year
+        self.per = per
+        self.team = team
+    
+    def get_url(self):
+        route = self.base_url
+        if self.year != 'Career':
+            route += f'&year={self.year}'
+        if self.per == 'game':
+            route += '&perGame'
+        if self.team == 'opponent':
+            route += '&opponent'
+        
+        return route
+    
+    def get_table(self):
+        # only one page, total teams = 38, max = 50, don't see the UFA adding > 12 teams anytime soon, no loops.
+        url = self.get_url()
+        stats = requests.get(url).json()
+        team_stats = stats['stats']
+        dataFrame = pd.DataFrame(team_stats)
+        return dataFrame
+    
+    def stats_to_csv(self, file_path):
+        try:
+            df = self.get_table()
+            df.to_csv(file_path, sep=',', index=False)
+            print(f'Successfully saved team stats at {file_path}')
+        except Exception as e:
+            print(f'An error occurred when trying to save team stats as a csv file: {e}')
+
+def main():
+    spiders_2024 = PlayerStats('2024', 'total', 'spiders')
+    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/team_stats_2024.csv'
+    team_stats_2024 = TeamStats(2024, 'total', 'team')
+    print(team_stats_2024.get_table())
+    team_stats_2024.stats_to_csv(path)
 
 if __name__ == '__main__':
     main()
-
