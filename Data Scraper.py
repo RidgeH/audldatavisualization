@@ -93,7 +93,7 @@ class TeamStats():
 
 def main():
     spiders_2024 = PlayerStats('2024', 'total', 'spiders')
-    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/team_stats_2024.csv'
+    path = '/Users/ridgehuang/Desktop/audldata/audldatavisualization/datasets/team_stats_2024.csv'
     team_stats_2024 = TeamStats(2024, 'total', 'team')
     print(team_stats_2024.get_table())
     team_stats_2024.stats_to_csv(path)
